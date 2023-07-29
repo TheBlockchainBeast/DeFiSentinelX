@@ -49,6 +49,9 @@ def bool_to_yes_no(value):
         return "No"
     else:
         return "Yes"
+    
+def bool_to_yes_no_emoji(value):
+    return "🔴" if value == "1" else "🟢"
 
 
 def handle_info(update, context):
@@ -68,6 +71,11 @@ def handle_info(update, context):
     truncated_creator_address = creator_address[:6] + \
         "..." + creator_address[-6:]
 
+    # Determine if the price change is positive or negative
+    price_change_emoji_m5 = "📈" if token_details.price_change.m5 < 0 else "📉"
+    price_change_emoji_h1 = "📈" if token_details.price_change.h1 < 0 else "📉"
+    price_change_emoji_h24 = "📈" if token_details.price_change.h24 < 0 else "📉"
+
     text = f"""
 1️⃣ Token Information
 
@@ -76,7 +84,9 @@ def handle_info(update, context):
 💵 Price (USD): ${token_details.price_usd}
 👥 Holders: {security.result[baseTokenAddress.lower()].holder_count}
 🔖 Tax: {security.result[baseTokenAddress.lower()].buy_tax}% buy, {security.result[baseTokenAddress.lower()].sell_tax}% sell
-📈 Price Change (24h): {token_details.price_change.h24}%
+{price_change_emoji_m5} Price Change (5min): {token_details.price_change.m5}%
+{price_change_emoji_h1} Price Change (1h): {token_details.price_change.h1}%
+{price_change_emoji_h24} Price Change (24h): {token_details.price_change.h24}%
 📊 Volume (24h): ${token_details.volume.h24}
 💦 Liquidity (USD): ${token_details.liquidity.usd}
 💎 MarketCap (FDV): ${token_details.fdv}
@@ -97,7 +107,7 @@ def handle_info(update, context):
     Anti_whale: {bool_to_yes_no(security.result[baseTokenAddress.lower()].is_anti_whale)}
     Blacklisted: {bool_to_yes_no(security.result[baseTokenAddress.lower()].is_blacklisted)}
     Whitelisted: {bool_to_yes_no(security.result[baseTokenAddress.lower()].is_whitelisted)}
-    Honeypot: {bool_to_yes_no(security.result[baseTokenAddress.lower()].is_honeypot)}
+{bool_to_yes_no_emoji(security.result[baseTokenAddress.lower()].is_honeypot)} Honeypot: {bool_to_yes_no(security.result[baseTokenAddress.lower()].is_honeypot)}
     Mintable: {bool_to_yes_no(security.result[baseTokenAddress.lower()].is_mintable)}
     Proxy: {bool_to_yes_no(security.result[baseTokenAddress.lower()].is_proxy)}
     Trading Cooldown: {bool_to_yes_no(security.result[baseTokenAddress.lower()].trading_cooldown)}
@@ -186,6 +196,11 @@ def send_token_alerts(context):
         created_at_string = created_at_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
         days_ago = (datetime.datetime.utcnow() - created_at_date).days
 
+        # Determine if the price change is positive or negative
+        price_change_emoji_m5 = "📈" if token_details.price_change.m5 < 0 else "📉"
+        price_change_emoji_h1 = "📈" if token_details.price_change.h1 < 0 else "📉"
+        price_change_emoji_h24 = "📈" if token_details.price_change.h24 < 0 else "📉"
+
         text = f"""
 1️⃣ Token Information
 
@@ -194,10 +209,14 @@ def send_token_alerts(context):
 💵 Price (USD): ${token_details.price_usd}
 👥 Holders: {security.result[baseTokenAddress.lower()].holder_count}
 🔖 Tax: {security.result[baseTokenAddress.lower()].buy_tax}% buy, {security.result[baseTokenAddress.lower()].sell_tax}% sell
-📈 Price Change (24h): {token_details.price_change.h24}%
+{price_change_emoji_m5} Price Change (5min): {token_details.price_change.m5}%
+{price_change_emoji_h1} Price Change (1h): {token_details.price_change.h1}%
+{price_change_emoji_h24} Price Change (24h): {token_details.price_change.h24}%
 📊 Volume (24h): ${token_details.volume.h24}
 💦 Liquidity (USD): ${token_details.liquidity.usd}
 💎 MarketCap (FDV): ${token_details.fdv}
+Honeypot: {bool_to_yes_no(security.result[baseTokenAddress.lower()].is_honeypot)}
+Created: {days_ago} days ago
 
 2️⃣ Transactions
 
@@ -208,8 +227,7 @@ def send_token_alerts(context):
 
 3️⃣ Security Check
        
-    Honeypot: {bool_to_yes_no(security.result[baseTokenAddress.lower()].is_honeypot)}
-    Created: {days_ago} days ago
+    
         """
 
         context.bot.send_message(chat_id=chat_id, text=text)
