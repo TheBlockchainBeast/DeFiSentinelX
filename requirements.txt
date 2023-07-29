@@ -1,5 +1,5 @@
 telegram
-dexscreener
+dexscreener==0.2
 goplus.token
 datetime
 threading
