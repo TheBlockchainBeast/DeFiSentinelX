@@ -1,0 +1,22 @@
+# render.yaml
+
+# The version of the Render spec
+version: 0.1
+
+# Build is a required section for specifying how to build your service
+build:
+  # This is the Dockerfile path, relative to your project root
+  # We assume your bot script is named "bot.py"
+  dockerfile: Dockerfile
+
+# Services is a required section for specifying how your app should run
+services:
+  - name: DeFiSentinelX  # Replace with a unique name for your service
+    env: .env  # This tells Render to use the environment variables from .env
+    port: 8443  # The port your bot will listen on
+
+# Optional section for setting environment variables
+env:
+  # Add your Telegram bot token here instead of hardcoding it in the code.
+  # It's a good practice to store sensitive information like tokens in environment variables.
+  TELEGRAM_TOKEN: 6557540556:AAGEzQoa63FRd3H1myanTGRzcJYp1tw-Lo4

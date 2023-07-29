@@ -1,7 +1,3 @@
 telegram
-dexscreener==0.2
-goplus.token
-datetime
-threading
-time
-gunicorn==20.1.0
+dexscreener
+goplus

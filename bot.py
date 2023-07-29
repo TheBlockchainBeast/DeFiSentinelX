@@ -5,6 +5,10 @@ from goplus.token import Token
 import datetime
 import threading
 import time
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Dictionary to store user-selected tokens and their intervals
 user_tokens = {}
@@ -113,7 +117,8 @@ def add_token(update, context):
     chat_id = update.message.chat_id
     tokens = context.args
     if not tokens:
-        update.message.reply_text("⚠️ Please provide at least one token symbol.")
+        update.message.reply_text(
+            "⚠️ Please provide at least one token symbol.")
         return
 
     user_tokens[chat_id] = user_tokens.get(chat_id, [])
@@ -127,7 +132,8 @@ def remove_token(update, context):
     chat_id = update.message.chat_id
     tokens = context.args
     if not tokens:
-        update.message.reply_text("⚠️ Please provide at least one token symbol.")
+        update.message.reply_text(
+            "⚠️ Please provide at least one token symbol.")
         return
 
     user_tokens[chat_id] = user_tokens.get(chat_id, [])
@@ -230,7 +236,8 @@ def add_multiple_tokens(update, context):
     chat_id = update.message.chat_id
     tokens = context.args
     if not tokens:
-        update.message.reply_text("⚠️ Please provide at least one token symbol.")
+        update.message.reply_text(
+            "⚠️ Please provide at least one token symbol.")
         return
 
     user_tokens[chat_id] = user_tokens.get(chat_id, [])
@@ -242,7 +249,7 @@ def add_multiple_tokens(update, context):
 
 
 def main():
-    updater = Updater(token="6557540556:AAGEzQoa63FRd3H1myanTGRzcJYp1tw-Lo4")
+    updater = Updater(token=os.getenv("TELEGRAM_TOKEN"))
     start_handler = CommandHandler("start", start)
     info_handler = CommandHandler("i", handle_info)
     add_handler = CommandHandler("add", add_token, pass_args=True)
