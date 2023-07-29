@@ -1,0 +1,7 @@
+telegram
+dexscreener
+goplus.token
+datetime
+threading
+time
+gunicorn==20.1.0
