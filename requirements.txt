@@ -1,6 +1,5 @@
 telegram
 gunicorn==20.1.0
-math
 telegram.ext
 dexscreener
 goplus.token
