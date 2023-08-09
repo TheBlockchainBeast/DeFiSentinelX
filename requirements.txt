@@ -1,11 +1,8 @@
 telegram
 gunicorn==20.1.0
-telegram.ext
 dexscreener
 goplus.token
 dextools_python
 datetime
-threading
-time
 os
 dotenv
