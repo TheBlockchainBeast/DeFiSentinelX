@@ -1,8 +1,2 @@
 telegram
 gunicorn==20.1.0
-dexscreener==0.2
-goplus.token
-dextools_python
-datetime
-os
-dotenv
