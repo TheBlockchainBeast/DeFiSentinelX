@@ -1,3 +1,2 @@
 telegram
-telegram.ext
 gunicorn==20.1.0
