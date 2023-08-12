@@ -1,5 +1,5 @@
 python-telegram-bot
 requests
-dotenv
+python-dotenv
 datetime
 gunicorn==20.1.0
